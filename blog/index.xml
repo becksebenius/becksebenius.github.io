@@ -11,5 +11,24 @@
 	<atom:link href="https://becksebenius.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
+    <item>
+      <title>Coroutine Sequencing and Scriptable Objects</title>
+      <link>https://becksebenius.github.io/blog/coroutine-sequencing-and-scriptable-objects/</link>
+      <pubDate>Sun, 02 Sep 2012 04:05:25 -0600</pubDate>
+      
+      <guid>https://becksebenius.github.io/blog/coroutine-sequencing-and-scriptable-objects/</guid>
+      <description>Here&amp;rsquo;s some code snippets that I&amp;rsquo;ve started using quite a bit in my projects. Neither of them are terribly complex, but hopefully someone finds them useful! First is the IEnumerator Queue. This one is used for sequencing coroutines together.
+using System.Collections; using System.Collections.Generic; public class CoroutineQueue : Queue &amp;lt; IEnumerator &amp;gt; ; { public IEnumerator current; public CoroutineQueue () {} public CoroutineQueue (params IEnumerator[] startingIEnumerators) { foreach(IEnumerator i in startingIEnumerators) Enqueue(i); } public void Update () { if(current !</description>
+    </item>
+    
+    <item>
+      <title>Custom Editors in Unity3d</title>
+      <link>https://becksebenius.github.io/blog/custom-editors-in-unity3d/</link>
+      <pubDate>Thu, 26 Jul 2012 04:05:25 -0600</pubDate>
+      
+      <guid>https://becksebenius.github.io/blog/custom-editors-in-unity3d/</guid>
+      <description>Unity&amp;rsquo;s built-in serialized data viewer - the default component inspector - is very useful for managing the behaviors of your Unity game. However, there comes a point when a project&amp;rsquo;s complexity becomes too deep to manage with this simple browser. Data cannot be moved or contain persistent relationships, and it is impossible to run functions on your code from within the editor using the default tools. This is why the Unity Editor scripting interface is incredibly powerful, and learning to use it has been one of the most influential factors in improving my workflow.</description>
+    </item>
+    
   </channel>
 </rss>

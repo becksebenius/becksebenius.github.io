@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="author" content="Beck Sebenius">
+<meta name="description" content="Unity&rsquo;s built-in serialized data viewer - the default component inspector - is very useful for managing the behaviors of your Unity game. However, there comes a point when a project&rsquo;s complexity becomes too deep to manage with this simple browser. Data cannot be moved or contain persistent relationships, and it is impossible to run functions on your code from within the editor using the default tools. This is why the Unity Editor scripting interface is incredibly powerful, and learning to use it has been one of the most influential factors in improving my workflow.">
+
+<meta property="og:title" content="Custom Editors in Unity3d" />
+<meta property="og:description" content="Unity&rsquo;s built-in serialized data viewer - the default component inspector - is very useful for managing the behaviors of your Unity game. However, there comes a point when a project&rsquo;s complexity becomes too deep to manage with this simple browser. Data cannot be moved or contain persistent relationships, and it is impossible to run functions on your code from within the editor using the default tools. This is why the Unity Editor scripting interface is incredibly powerful, and learning to use it has been one of the most influential factors in improving my workflow." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://becksebenius.github.io/blog/custom-editors-in-unity3d/" />
+
+
+
+<meta property="article:published_time" content="2012-07-26T04:05:25-06:00"/>
+
+<meta property="article:modified_time" content="2012-07-26T04:05:25-06:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+<title>
+
+
+     Custom Editors in Unity3d 
+
+</title>
+<link rel="canonical" href="https://becksebenius.github.io/blog/custom-editors-in-unity3d/">
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:500">
+
+
+
+    
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/reset.css?t=2017-12-20%2000%3a31%3a27.3272556%20-0800%20PST%20m%3d%2b2.076743201">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/pygments.css?t=2017-12-20%2000%3a31%3a27.3272556%20-0800%20PST%20m%3d%2b2.076743201">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/main.css?t=2017-12-20%2000%3a31%3a27.3272556%20-0800%20PST%20m%3d%2b2.076743201">
+    
+        <link rel="stylesheet" href="https://becksebenius.github.io/css/override.css?t=2017-12-20%2000%3a31%3a27.3272556%20-0800%20PST%20m%3d%2b2.076743201">
+    
+
+
+
+
+<link rel="shortcut icon"
+
+    href="https://becksebenius.github.io/img/leaf.ico"
+
+>
+
+
+
+
+
+
+
+
+</head>
+
+
+<body lang="en">
+
+<section class="header">
+    <div class="container">
+        <div class="content">
+            
+                
+                
+                
+                
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                
+                <a href="https://becksebenius.github.io/"><img class="avatar" src="https://becksebenius.github.io/img/profile.jpg" srcset="https://becksebenius.github.io/img/profile.jpg 1x"></a>
+            
+            <a href="https://becksebenius.github.io/"><div class="name">Beck Sebenius</div></a>
+            
+              <h3 class="self-intro">Software Engineer / Game Developer</h3>
+            
+            <nav>
+                <ul>
+                    
+                        <li class="nav-blog"><a href="https://becksebenius.github.io/blog/"><span>Blog</span></a></li>
+                    
+                        <li class="nav-about"><a href="https://becksebenius.github.io/about/"><span>About</span></a></li>
+                    
+                        <li class="nav-code"><a href="https://becksebenius.github.io/code/"><span>Code</span></a></li>
+                    
+                        <li class="nav-resume"><a href="https://becksebenius.github.io/resume/"><span>Resume</span></a></li>
+                    
+                        <li class="nav-contact"><a href="https://becksebenius.github.io/contact/"><span>Contact</span></a></li>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="icons">
+    <div class="container">
+        <div class="content">
+
+        
+
+        
+            <a href="//twitter.com/becksebenius" target="_blank" rel="noopener"><img class="icon" src="https://becksebenius.github.io/img/twitter.svg" alt="twitter" /></a>
+        
+
+        
+
+        
+
+        
+            <a href="//linkedin.com/in/becksebenius" target="_blank" rel="noopener"><img class="icon" src="https://becksebenius.github.io/img/linkedin.svg" alt="linkedin" /></a>
+        
+
+        
+
+        
+            
+        
+
+        
+
+        
+            <a href="mailto:rseben@gmail.com"><img class="icon" src="https://becksebenius.github.io/img/email.svg" alt="email" /></a>
+        
+
+        
+            <a href="https://becksebenius.github.io/index.xml"><img class="icon" src="https://becksebenius.github.io/img/rss.svg" alt="rss" /></a>
+        
+        
+        </div>
+    </div>
+</section>
+
+
+<section class="main post non-narrow zero-top-spacing">
+    <div class="container">
+        <div class="content">
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
+
+    Custom Editors in Unity3d
+
+</div>
+
+                    <div class="initials"><a href="https://becksebenius.github.io/">bs</a></div>
+                </div>
+                <div class="meta">
+                    
+                    <div class="date" title='Thu Jul 26 2012 04:05:25 -0600'>Jul 26, 2012</div>
+                    
+                    
+		    <div class="reading-time"><div class="middot"></div>6 minutes read</div>
+                    
+                </div>
+            </div>
+            <div class="markdown">
+                <p>Unity&rsquo;s built-in serialized data viewer - the default component inspector - is very useful for managing the behaviors of your Unity game. However, there comes a point when a project&rsquo;s complexity becomes too deep to manage with this simple browser. Data cannot be moved or contain persistent relationships, and it is impossible to run functions on your code from within the editor using the default tools. This is why the Unity Editor scripting interface is incredibly powerful, and learning to use it has been one of the most influential factors in improving my workflow.
+My work cycle has usually started with prototyping and ended with implementation, but as I grow as a programmer I am starting to realize that these are processes which should be alive throughout the entire project. Editor scripting is a great way to help you keep both of these work-flows functioning together, allowing you to prototype quickly and implement with as few bugs as possible. I follow the philosophy that time spent improving your workflow is time well-spent, and building tools in preparation for a task is essential to carry out complex plans effectively.</p>
+
+<p>A great way to start editor scripting in Unity is by using Custom Inspectors. I mentioned the default component inspector above, and custom inspectors are basically a way to override these for your own methods. Here is a sample of the benefits of a custom inspector:</p>
+
+<p><strong>Example Code</strong></p>
+
+<pre><code class="language-csharp">using UnityEngine;
+using UnityEditor; //Import Unity's editor functionality to your code
+
+//This next line is the first key to creating a custom inspector:
+// Change MyClass to the MonoBehaviour of your choice
+[CustomEditor(typeof(MyClass))]
+public class MyCustomEditor : Editor {
+ 
+ //Overriding OnInspectorGUI tells Unity to use this function when
+ // showing the inspector rather than the default one.
+ public override void OnInspectorGUI ()
+ {
+  //If you would like to ADD to the inspector,
+  // rather than just override it, use this next line:
+  DrawDefaultInspector();
+  
+  //The CustomEditor() line above gives us access to the
+  // &quot;target&quot; variable.
+  //This variable is &quot;untyped&quot; so it's not wise to use it directly.
+  // Instead, we will create a new variable and give it the proper Type
+  // so that we can access it's variables and functions
+  MyClass myClass = target as MyClass;
+  
+  //Whether you put this line before or after your code will
+  // determine where your GUI elements are drawn.
+  
+  //Custom inspectors are just like OnGUI calls, except
+  // with the additional functionality of the
+  // EditorGUILayout class.
+  // This class works just like GUILayout, but with some
+  // helpful functions that are geared specifically towards the editor
+  
+  //Adds a field defining the name of the object
+  myClass.name = EditorGUILayout.TextField(&quot;Name&quot;, myClass.name);
+  
+  //Adds a field defining the position of the object
+  myClass.transform.position = EditorGUILayout.Vector3Field(&quot;Position&quot;, myClass.transform.position);
+  
+  //Adds a field defining the color of the object's renderer
+  // if it has one
+  if(myClass.renderer){
+   myClass.renderer.material.color = EditorGUILayout.ColorField(&quot;Color&quot;, myClass.renderer.material.color);
+  }
+  
+  //Custom editors are also useful for running functions on your code:
+  if(GUILayout.Button(&quot;Move Up 1 Unit&quot;)){
+   myClass.transform.position = myClass.transform.position + Vector3.up;
+  }
+  
+  //And what if I want to add the same fields for the other directions?
+  // The GUI might get cluttered with all these different buttons,
+  // so lets group them all on one line:
+  EditorGUILayout.BeginHorizontal();
+  if(GUILayout.Button(&quot;Move Right 1 Unit&quot;)){
+   myClass.transform.position = myClass.transform.position + Vector3.right;
+  }
+  if(GUILayout.Button(&quot;Move Left 1 Unit&quot;)){
+   myClass.transform.position = myClass.transform.position - Vector3.right;
+  }
+  EditorGUILayout.EndHorizontal();
+ }
+  
+}
+</code></pre>
+
+<p>If you put the above script in a folder called Editor, and change MyClass to the MonoBehaviour of your choice, you can see an example of what the custom editors do.</p>
+
+<p>Some day I might write a more comprehensive tutorial on using Editor scripts. For now, check out this great tutorial: <a href="http://catlikecoding.com/unity/tutorials/star/">http://catlikecoding.com/unity/tutorials/star/</a></p>
+
+<p>Here&rsquo;s are some examples of custom editors in Treasure Turtle.</p>
+
+<p><strong>Perlin Noise Preview</strong>
+<img src="../../img/blog/custom-editors-in-unity3d/SeaGreen_ZonesWindow.JPG" alt="Sea Green Zones Window" title="Sea Green Zones Window" /></p>
+
+<p>In the above screenshot is a browser I built which helps me browse the asset import pipeline, generation parameters, and procedural branches of my Zone system. The system helps to generate the procedural level which makes up the game. At the top is a slider for picking zones (of which there are currently 10), and the settings below are foldout menus to categorize the data. The main panel I have open in the screenshot is a preview of the Perlin noise that the zone uses. I use the <a href="http://docs.unity3d.com/Documentation/ScriptReference/EditorGUILayout.Foldout.html">EditorGUILayout.Foldout</a> function heavily in this menu, and for the <a href="http://docs.unity3d.com/Documentation/ScriptReference/EditorGUI.DrawPreviewTexture.html">EditorGUI.DrawPreviewTexture</a> function for rendering out the preview. In this preview, the Perlin noise is clamped to show how the result will effect gameplay.</p>
+
+<p>This interface was born originally out of the notion that editing arrays of assets is a huge pain in the ass in Unity&rsquo;s default inspector. It&rsquo;s Array GUI functionality doesn&rsquo;t allow you to rearrange the order of items or easily resize the array without stomping data. I found myself spending more time struggling with the interface rather than being creative, and at that point I realized that something must change.
+Originally this was all built in a Custom Inspector, but eventually I migrated it to an <a href="http://docs.unity3d.com/Documentation/ScriptReference/EditorWindow.html">EditorWindow</a>. EditorWindows are much like custom inspectors but live outside of the Inspector panel, allowing for much more freedom.</p>
+
+<p><strong>Toggle Grid</strong></p>
+
+<p><img src="../../img/blog/custom-editors-in-unity3d/SeaGreen_FilterWindow.JPG" alt="Sea Green Filter Window" title="Sea Green Filter Window" /></p>
+
+<p>Next up is the filter window, which is used to describe how the system recognizes patterns in the environment. The core of the system has been in the game from the beginning, and without the GUI I would have a hell of a time modifying any of this stuff. There is one important trick that I learned to create this, and that is using the GUILayout Options.
+GUILayout Options let you dynamically resize your GUILayout boxes without having to figure out the Rectangles yourself. They are sent as optional parameters in your GUILayout calls. For example:</p>
+
+<pre><code>//This will draw a button that is 100 pixels wide
+GUILayout.Button(&quot;Button&quot;, GUILayout.Width(100))
+
+//This will draw a button that is 100 pixels tall
+GUILayout.Button(&quot;Button&quot;, GUILayout.Height(100)) 
+
+//This will draw a button that looks like an X, handy for when you want to have a delete button for custom data
+GUILayout.Button(&quot;X&quot;, GUILayout.Width(30))
+</code></pre>
+
+<p><strong>Sin Wave Curve Preview</strong></p>
+
+<p><img src="../../img/blog/custom-editors-in-unity3d/SeaGreen_ZoneSetsWindow.JPG" alt="Sea Green Sin Wave Curve" title="Sea Green Sin Wave Window" /></p>
+
+<p>This final window shows how the ocean floor is determined. My game works on a series of layers. Originally, most of this was hard-coded, but it became impractical to recompile every time I wanted to change something which was inherently visual. This system basically layers a bunch of sin waves at various frequencies on top of each other, creating a varied, non-repeating terrain. It does follow a certain form after a while, but that is intentional - not everything should be random!</p>
+
+<p>Aside from the typical Foldouts and Buttons, I used one final technique which you might find useful: Animation curves! <a href="http://docs.unity3d.com/Documentation/ScriptReference/EditorGUILayout.CurveField.html">EditorGUILayout.CurveField</a> allows you to show an Animation curve in the Editor GUI, and when combined with GUILayout.Height I got a nice 2-dimentional linear preview window. You could always render this into a texture like my previous example, but this is much less memory intensive and allows you to open up a separate window to look at your curve in greater detail. Baking out my sin waves into an ainmation curve was just a process of baking keyframes from my sin wave result.</p>
+
+<p>So I hope that gives you a good overview of what is possible with the Custom Editor class, how you might use it for your own project. As always you can ask me questions on twitter, email, or IRC if you need some help! Happy toolmaking!</p>
+
+                <br>
+		<p class="back-to-posts"><a href="https://becksebenius.github.io/blog/">Back to posts</a></p>
+            </div>
+            <br>
+            <div class="disqus">
+                
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-123-45', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+  
+
+  <script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+  </script>
+
+
+
+
+
+</body>
+</html>
+

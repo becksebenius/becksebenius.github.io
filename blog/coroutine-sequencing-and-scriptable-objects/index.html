@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="author" content="Beck Sebenius">
+<meta name="description" content="Here&rsquo;s some code snippets that I&rsquo;ve started using quite a bit in my projects. Neither of them are terribly complex, but hopefully someone finds them useful! First is the IEnumerator Queue. This one is used for sequencing coroutines together.
+using System.Collections; using System.Collections.Generic; public class CoroutineQueue : Queue &lt; IEnumerator &gt; ; { public IEnumerator current; public CoroutineQueue () {} public CoroutineQueue (params IEnumerator[] startingIEnumerators) { foreach(IEnumerator i in startingIEnumerators) Enqueue(i); } public void Update () { if(current !">
+
+<meta property="og:title" content="Coroutine Sequencing and Scriptable Objects" />
+<meta property="og:description" content="Here&rsquo;s some code snippets that I&rsquo;ve started using quite a bit in my projects. Neither of them are terribly complex, but hopefully someone finds them useful! First is the IEnumerator Queue. This one is used for sequencing coroutines together.
+using System.Collections; using System.Collections.Generic; public class CoroutineQueue : Queue &lt; IEnumerator &gt; ; { public IEnumerator current; public CoroutineQueue () {} public CoroutineQueue (params IEnumerator[] startingIEnumerators) { foreach(IEnumerator i in startingIEnumerators) Enqueue(i); } public void Update () { if(current !" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://becksebenius.github.io/blog/coroutine-sequencing-and-scriptable-objects/" />
+
+
+
+<meta property="article:published_time" content="2012-09-02T04:05:25-06:00"/>
+
+<meta property="article:modified_time" content="2012-09-02T04:05:25-06:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+<title>
+
+
+     Coroutine Sequencing and Scriptable Objects 
+
+</title>
+<link rel="canonical" href="https://becksebenius.github.io/blog/coroutine-sequencing-and-scriptable-objects/">
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:500">
+
+
+
+    
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/reset.css?t=2017-12-20%2000%3a31%3a27.3272556%20-0800%20PST%20m%3d%2b2.076743201">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/pygments.css?t=2017-12-20%2000%3a31%3a27.3272556%20-0800%20PST%20m%3d%2b2.076743201">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/main.css?t=2017-12-20%2000%3a31%3a27.3272556%20-0800%20PST%20m%3d%2b2.076743201">
+    
+        <link rel="stylesheet" href="https://becksebenius.github.io/css/override.css?t=2017-12-20%2000%3a31%3a27.3272556%20-0800%20PST%20m%3d%2b2.076743201">
+    
+
+
+
+
+<link rel="shortcut icon"
+
+    href="https://becksebenius.github.io/img/leaf.ico"
+
+>
+
+
+
+
+
+
+
+
+</head>
+
+
+<body lang="en">
+
+<section class="header">
+    <div class="container">
+        <div class="content">
+            
+                
+                
+                
+                
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                
+                <a href="https://becksebenius.github.io/"><img class="avatar" src="https://becksebenius.github.io/img/profile.jpg" srcset="https://becksebenius.github.io/img/profile.jpg 1x"></a>
+            
+            <a href="https://becksebenius.github.io/"><div class="name">Beck Sebenius</div></a>
+            
+              <h3 class="self-intro">Software Engineer / Game Developer</h3>
+            
+            <nav>
+                <ul>
+                    
+                        <li class="nav-blog"><a href="https://becksebenius.github.io/blog/"><span>Blog</span></a></li>
+                    
+                        <li class="nav-about"><a href="https://becksebenius.github.io/about/"><span>About</span></a></li>
+                    
+                        <li class="nav-code"><a href="https://becksebenius.github.io/code/"><span>Code</span></a></li>
+                    
+                        <li class="nav-resume"><a href="https://becksebenius.github.io/resume/"><span>Resume</span></a></li>
+                    
+                        <li class="nav-contact"><a href="https://becksebenius.github.io/contact/"><span>Contact</span></a></li>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="icons">
+    <div class="container">
+        <div class="content">
+
+        
+
+        
+            <a href="//twitter.com/becksebenius" target="_blank" rel="noopener"><img class="icon" src="https://becksebenius.github.io/img/twitter.svg" alt="twitter" /></a>
+        
+
+        
+
+        
+
+        
+            <a href="//linkedin.com/in/becksebenius" target="_blank" rel="noopener"><img class="icon" src="https://becksebenius.github.io/img/linkedin.svg" alt="linkedin" /></a>
+        
+
+        
+
+        
+            
+        
+
+        
+
+        
+            <a href="mailto:rseben@gmail.com"><img class="icon" src="https://becksebenius.github.io/img/email.svg" alt="email" /></a>
+        
+
+        
+            <a href="https://becksebenius.github.io/index.xml"><img class="icon" src="https://becksebenius.github.io/img/rss.svg" alt="rss" /></a>
+        
+        
+        </div>
+    </div>
+</section>
+
+
+<section class="main post non-narrow zero-top-spacing">
+    <div class="container">
+        <div class="content">
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
+
+    Coroutine Sequencing and Scriptable Objects
+
+</div>
+
+                    <div class="initials"><a href="https://becksebenius.github.io/">bs</a></div>
+                </div>
+                <div class="meta">
+                    
+                    <div class="date" title='Sun Sep 2 2012 04:05:25 -0600'>Sep 2, 2012</div>
+                    
+                    
+		    <div class="reading-time"><div class="middot"></div>4 minutes read</div>
+                    
+                </div>
+            </div>
+            <div class="markdown">
+                <p>Here&rsquo;s some code snippets that I&rsquo;ve started using quite a bit in my projects. Neither of them are terribly complex, but hopefully someone finds them useful! First is the IEnumerator Queue. This one is used for sequencing coroutines together.</p>
+
+<pre><code class="language-csharp">using System.Collections;
+using System.Collections.Generic;
+
+public class CoroutineQueue : Queue &lt; IEnumerator &gt; ;
+{ 
+
+  public IEnumerator current; 
+
+  public CoroutineQueue () {} 
+  public CoroutineQueue (params IEnumerator[] startingIEnumerators) 
+  { 
+    foreach(IEnumerator i in startingIEnumerators) Enqueue(i);
+  }
+
+  public void Update () 
+  { 
+    if(current != null &amp; &amp; current.MoveNext()) return;
+    if(Count != 0) current = Dequeue();
+  }
+
+}
+</code></pre>
+
+<p>I find that the most difficult part of game programming is sequencing dynamic events, and this little guy has helped me a number of times organize my thoughts. Before using this, my sequential code was like this:</p>
+
+<pre><code class="language-csharp">public void Start ()
+{
+  StartCoroutine(Sequence1());
+}
+
+public IEnumerator Sequence1 ()
+{
+ //Do some stuff, and yield for a while
+ StartCoroutine(Sequence2());
+}
+
+public IEnumerator Sequence2 ()
+{
+ //Load some resources, wait for a web request
+ StartCoroutine(Sequence3());
+}
+
+ //et cetera et cetera
+</code></pre>
+
+<p>But with the above class, it becomes more like this:</p>
+
+<pre><code class="language-csharp">public CoroutineQueue queue;
+
+public void Start ()
+{
+ queue = new CoroutineQueue ( Sequence1(), Sequence2(), Sequence3(), Sequence4() );
+}
+
+public void Update ()
+{
+ queue.Update();
+}
+</code></pre>
+
+<p>More often, I use this for queues that aren&rsquo;t necessary input at the beginning of the queue. This is especially helpful as a procedural animation manager, or a finite state machine.</p>
+
+<p>The next bit of code is for Scriptable Objects. I love scriptable objects, but I found the barrier to entry for them to be annoyingly complex. Can&rsquo;t I just create an asset, like all the other assets are created? To create a scriptable object and save it as an asset, you must first find a path for it to live in. Ideally, when you create a scriptable object, it will be saved in the same place as the asset you currently have selected in the project window (just like Unity&rsquo;s Create menu works). I haven&rsquo;t been able to find a Unity API for this, so here&rsquo;s a snippet that does this:</p>
+
+<pre><code class="language-csharp"> public static string GetSelectedAssetPath (string name) 
+ {
+  string path = &quot;Assets/&quot; + name + &quot;.asset&quot;;
+  if(Selection.activeObject != null &amp;&amp; AssetDatabase.IsMainAsset(Selection.activeObject))
+  {
+   path = AssetDatabase.GetAssetPath(Selection.activeObject);
+   
+   if(Path.GetExtension(path) != &quot;&quot;)
+   {
+    path = Path.GetDirectoryName(path);
+   }
+   
+   path = path + &quot;/&quot; + name + &quot;.asset&quot;;
+   path = AssetDatabase.GenerateUniqueAssetPath(path);
+  }
+  return path;
+ }
+</code></pre>
+
+<p>This method will return an asset path for you at those specifications. It&rsquo;s useful for more than just Scriptable Objects!</p>
+
+<p>Next, you have to actually save the asset. Scriptable Objects can be created without adding them to the asset database, and you have to manually do this. Without doing this, the object will sit in memory until you restart Unity - and it will not be accessible! So, using the above method, you can create an asset pretty easily:</p>
+
+<pre><code class="language-csharp"> public static void CreateAsset (UnityEngine.Object o, string name)
+ {
+  string path = GetSelectedAssetPath(name);
+  AssetDatabase.CreateAsset(o, path);
+  Selection.activeObject = o;
+ }
+</code></pre>
+
+<p>The last step is to create an actual Scriptable Object. You usually want a reference to the scriptable object after you create it (to initialize it with some data, or whatever), and with the standard method on the Unity docs you have to typecast the scriptable object every time you create one. This is pretty cumbersome and wordy, so I found it useful to create a generic method for all scriptable objects. Here it is:</p>
+
+<pre><code class="language-csharp"> public static T CreateScriptableObject (string name) where T : ScriptableObject 
+ {
+  T obj = ScriptableObject.CreateInstance();
+  EditorTools.CreateAsset(obj, name);
+  return obj;
+ }
+</code></pre>
+
+<p>This method creates an object with the input name of the input Type, and adds it to the database and saves it where your current selection is. It avoids any user typecasting, which keeps your code lean and clean. With Scriptable Objects it is very rare that I ever need to use a different method for creating this, and references to this method is littered throughout my code! Here is the typical way to use the method:</p>
+
+<pre><code class="language-csharp">public MyAsset asset = EditorTools.CreateScriptableObject(&quot;New Asset&quot;);
+</code></pre>
+
+<p>Here is the full source for all the above scriptable object stuff. It must be placed in a folder called &ldquo;Editor&rdquo;, anywhere in your project.</p>
+
+<pre><code class="language-csharp">using UnityEditor;
+using UnityEngine;
+using System.IO;
+
+public class EditorTools
+{
+
+  //Creates an asset at the selected path,
+ public static string GetSelectedAssetPath (string name) 
+ {
+  string path = &quot;Assets/&quot; + name + &quot;.asset&quot;;
+  if(Selection.activeObject != null &amp;&amp; AssetDatabase.IsMainAsset(Selection.activeObject))
+  {
+   path = AssetDatabase.GetAssetPath(Selection.activeObject);
+   
+   if(Path.GetExtension(path) != &quot;&quot;)
+   {
+    path = Path.GetDirectoryName(path);
+   }
+   
+   path = path + &quot;/&quot; + name + &quot;.asset&quot;;
+   path = AssetDatabase.GenerateUniqueAssetPath(path);
+  }
+  return path;
+ }
+ 
+ public static void CreateAsset (UnityEngine.Object o, string name)
+ {
+  string path = GetSelectedAssetPath(name);
+  AssetDatabase.CreateAsset(o, path);
+  Selection.activeObject = o;
+ }
+ 
+ public static T CreateScriptableObject &lt; T &gt; ( string name ) where T : ScriptableObject 
+ {
+  T obj = ScriptableObject.CreateInstance &lt; T &gt;();
+  EditorTools.CreateAsset(obj, name);
+  return obj;
+ }
+ 
+}
+</code></pre>
+
+<p>So I hope that these snips are useful to someone! Feel free to ask me for help on any of this stuff, or point out any errors or better ways to do things.</p>
+
+                <br>
+		<p class="back-to-posts"><a href="https://becksebenius.github.io/blog/">Back to posts</a></p>
+            </div>
+            <br>
+            <div class="disqus">
+                
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-123-45', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+  
+
+  <script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+  </script>
+
+
+
+
+
+</body>
+</html>
+
