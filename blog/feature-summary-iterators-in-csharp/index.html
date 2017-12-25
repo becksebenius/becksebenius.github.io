@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="author" content="Beck Sebenius">
+<meta name="description" content="When programming with any language, it&rsquo;s important to know the full suite of tools, their caveats, and their hidden benefits. A tool in C# that often goes overlooked are enumerables, and their spouse the iterators (called enumerators in C#). These tools are incredibly powerful and can make code more concise and flexible, but can also end up causing some serious problems down the line.
+First, lets establish some terms:">
+
+<meta property="og:title" content="Feature Summary: Iterators in C#" />
+<meta property="og:description" content="When programming with any language, it&rsquo;s important to know the full suite of tools, their caveats, and their hidden benefits. A tool in C# that often goes overlooked are enumerables, and their spouse the iterators (called enumerators in C#). These tools are incredibly powerful and can make code more concise and flexible, but can also end up causing some serious problems down the line.
+First, lets establish some terms:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://becksebenius.github.io/blog/feature-summary-iterators-in-csharp/" />
+
+
+
+<meta property="article:published_time" content="2017-12-25T13:34:25-07:00"/>
+
+<meta property="article:modified_time" content="2017-12-25T13:34:25-07:00"/>
+
+
+
+
+
+
+
+
+
+
+
+
+<title>
+
+
+     Feature Summary: Iterators in C# 
+
+</title>
+<link rel="canonical" href="https://becksebenius.github.io/blog/feature-summary-iterators-in-csharp/">
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:500">
+
+
+
+    
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/reset.css?t=2017-12-25%2013%3a37%3a26.8267624%20-0800%20PST%20m%3d%2b0.200331801">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/pygments.css?t=2017-12-25%2013%3a37%3a26.8267624%20-0800%20PST%20m%3d%2b0.200331801">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/main.css?t=2017-12-25%2013%3a37%3a26.8267624%20-0800%20PST%20m%3d%2b0.200331801">
+    
+        <link rel="stylesheet" href="https://becksebenius.github.io/css/override.css?t=2017-12-25%2013%3a37%3a26.8267624%20-0800%20PST%20m%3d%2b0.200331801">
+    
+
+
+
+
+<link rel="shortcut icon"
+
+    href="https://becksebenius.github.io/img/leaf.ico"
+
+>
+
+
+
+
+
+
+
+
+</head>
+
+
+<body lang="en">
+
+<section class="header">
+    <div class="container">
+        <div class="content">
+            
+                
+                
+                
+                
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                
+                <a href="https://becksebenius.github.io/"><img class="avatar" src="https://becksebenius.github.io/img/profile.jpg" srcset="https://becksebenius.github.io/img/profile.jpg 1x"></a>
+            
+            <a href="https://becksebenius.github.io/"><div class="name">Beck Sebenius</div></a>
+            
+              <h3 class="self-intro">Software Engineer / Game Developer</h3>
+            
+            <nav>
+                <ul>
+                    
+                        <li class="nav-blog"><a href="https://becksebenius.github.io/blog/"><span>Blog</span></a></li>
+                    
+                        <li class="nav-about"><a href="https://becksebenius.github.io/about/"><span>About</span></a></li>
+                    
+                        <li class="nav-code"><a href="https://becksebenius.github.io/code/"><span>Code</span></a></li>
+                    
+                        <li class="nav-resume"><a href="https://becksebenius.github.io/resume/"><span>Resume</span></a></li>
+                    
+                        <li class="nav-contact"><a href="https://becksebenius.github.io/contact/"><span>Contact</span></a></li>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="icons">
+    <div class="container">
+        <div class="content">
+
+        
+
+        
+            <a href="//twitter.com/becksebenius" target="_blank" rel="noopener"><img class="icon" src="https://becksebenius.github.io/img/twitter.svg" alt="twitter" /></a>
+        
+
+        
+
+        
+
+        
+            <a href="//linkedin.com/in/becksebenius" target="_blank" rel="noopener"><img class="icon" src="https://becksebenius.github.io/img/linkedin.svg" alt="linkedin" /></a>
+        
+
+        
+
+        
+            
+        
+
+        
+
+        
+            <a href="mailto:rseben@gmail.com"><img class="icon" src="https://becksebenius.github.io/img/email.svg" alt="email" /></a>
+        
+
+        
+            <a href="https://becksebenius.github.io/index.xml"><img class="icon" src="https://becksebenius.github.io/img/rss.svg" alt="rss" /></a>
+        
+        
+        </div>
+    </div>
+</section>
+
+
+<section class="main post non-narrow zero-top-spacing">
+    <div class="container">
+        <div class="content">
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
+
+    Feature Summary: Iterators in C#
+
+</div>
+
+                    <div class="initials"><a href="https://becksebenius.github.io/">bs</a></div>
+                </div>
+                <div class="meta">
+                    
+                    <div class="date" title='Mon Dec 25 2017 13:34:25 -0700'>Dec 25, 2017</div>
+                    
+                    
+		    <div class="reading-time"><div class="middot"></div>6 minutes read</div>
+                    
+                </div>
+            </div>
+            <div class="markdown">
+                
+
+<p>When programming with any language, it&rsquo;s important to know the full suite of tools, their caveats, and their hidden benefits. A tool in C# that often goes overlooked are enumerables, and their spouse the iterators (called enumerators in C#). These tools are incredibly powerful and can make code more concise and flexible, but can also end up causing some serious problems down the line.</p>
+
+<p>First, lets establish some terms:</p>
+
+<h2 id="enumerables">Enumerables</h2>
+
+<p>As the name implies, these are objects which can be enumerated. This means that it contains a collection or a series of objects. These are very similar to an <code>enum</code> which is a constant definition of objects of a uniform type.</p>
+
+<p><em>Tip: <code>enum</code> types do not implement <code>IEnumerable</code> but you can get one with <code>Enum.GetValues(typeof(MyEnumType))</code></em></p>
+
+<p>Enumerables in C# are represented with the interface <code>IEnumerable</code> and <code>IEnumerable&lt;T&gt;</code>, and have only a single function: GetEnumerator. We&rsquo;ll talk about Enumerators in a moment, but basically this function says &ldquo;Give me an object which will iterate over this Enumerable&rdquo;. Common classes which implement IEnumerable are the List&lt;&gt; object and built-in Arrays.</p>
+
+<h2 id="iterators">Iterators</h2>
+
+<p>Although represented as the <code>IEnumerator</code> interface in C#, I prefer to use the term iterator because of the similarity of the other terms. An iterator is an object which provides A) the current object that is being inspected and B) a method to continue to the next object, which returns whether or not it has reached the end.</p>
+
+<p>Iterators are analogous to using a traditional <code>for</code> loop:</p>
+
+<pre><code class="language-csharp">int[] array;
+for(int i = 0; i &lt; length; i++)
+{
+    int current = array[i];
+}
+</code></pre>
+
+<p>Each expression in this traditional <code>for</code> loop maps to a function of the IEnumerator.</p>
+
+<p><code>int i = 0</code> Declare the iterator</p>
+
+<p><code>i &lt; length</code> Are there any more values to inspect?</p>
+
+<p><code>i++</code> Move to the next element</p>
+
+<p><code>int current = array[i];</code> Inspect the current element</p>
+
+<p>The other feature that an <code>IEnumerator</code> requires is the ability to start over. Iterators must implement <code>Reset()</code> so that they can be run again.</p>
+
+<h2 id="foreach">Foreach</h2>
+
+<p>In .NET/Mono, Enumerators and Iterators are integrated with several language features. This makes C# a great tool for software that involves handling sets and subsets of objects (read: most applications!).</p>
+
+<p>One common example of using iterators is the <code>foreach</code> syntax. It might not be immediately obvious, but you can foreach any object that implements the <code>IEnumerable</code> interface.</p>
+
+<pre><code class="language-csharp">int[] array;
+foreach(int current in array)
+{
+
+}
+</code></pre>
+
+<p>Although this is the example takes up the same vertical space as the <code>for</code> loop example above, it is easier to understand and writing it is less prone to mistakes. This syntax roughly compiles to:</p>
+
+<pre><code class="language-csharp">int[] array;
+IEnumerator&lt;int&gt; iterator = array.GetEnumerator();
+while(iterator.MoveNext())
+{
+    int current = iterator.Current;
+}
+</code></pre>
+
+<p>Notice the <code>GetEnumerator()</code> function call. This function satisfies the implementation of IEnumerable, which the built-in array implements.</p>
+
+<h2 id="auto-generated-iterators">Auto-Generated Iterators</h2>
+
+<p>One of my favorite features in C# are auto-generated iterators. The <code>IEnumerator</code> and <code>IEnumerable</code> interfaces are very powerful, but require a fair amount of boilerplate code in order to write simple thoughts. As is the case with many of the language features in C#, auto-generated iterators allow you to skip writing the boilerplate and keep the code you write focused on the functionality you are trying to express.</p>
+
+<p>Auto-Generated Iterators can be declared simply by writing a function that returns <code>IEnumerator</code>, and includes the <code>yield</code> syntax.</p>
+
+<pre><code class="language-csharp">public IEnumerator GetCoolestAnimals ()
+{
+    yield return &quot;Dog&quot;;
+    yield return &quot;Cat&quot;;
+    yield return &quot;Platypus&quot;
+    yield break;
+}
+</code></pre>
+
+<p>Because this returns an enumerator, it can be used to iterate over all returned values:</p>
+
+<pre><code class="language-csharp">foreach(object animal in GetCoolestAnimals ())
+{
+}
+</code></pre>
+
+<p>One thing you might notice in the above examples is that the variable in the foreach is cast as type &lsquo;object&rsquo; rather than string. Even though the <code>GetCoolestAnimals</code> function returns all strings, the <code>IEnumerator</code> interface only supports objects. Luckily, there are generic versions of both <code>IEnumerator</code> and <code>IEnumerable</code>:</p>
+
+<pre><code class="language-csharp">public IEnumerator&lt;string&gt; GetCoolestAnimals ()
+{
+    yield return &quot;Dog&quot;;
+    yield return &quot;Cat&quot;;
+    yield return &quot;Platypus&quot;;
+    yield break;
+}
+
+public void PrintCoolestAnimals ()
+{
+    // Prints:
+    //  Dog
+    //  Cat
+    //  Platypus
+    foreach(string animal in GetCoolestAnimals ())
+    {
+        Console.WriteLine(animal);
+    }
+}
+</code></pre>
+
+<p>Voila!</p>
+
+<p><em>Tip: When you write your <code>foreach</code>, you can specify the type even if the IEnumerator is not generic, but beware that this is doing a runtime cast and will throw an exception if the IEnumerator finds an object that cannot be cast to the specified type.</em></p>
+
+<p><em>Tip: In the above examples, <code>yield break;</code> is analogous to <code>return;</code> and immediately exits the iterator.</em></p>
+
+<h2 id="warning-memory-concerns">Warning: Memory Concerns</h2>
+
+<p>When using enumerables and iterators, it&rsquo;s important to understand the downsides. .NET/Mono are garbage collected runtimes which means that memory doesn&rsquo;t have to be manually de-allocated, but performance problems can occur when you are discarding too much memory. This is particularly a concern in high-performance applications like video games or VR.</p>
+
+<p><code>IEnumerator</code> and <code>IEnumerable</code> are interfaces, which means that they can be a variety of types. Most of the built-in collections like List, Dictionary, or Hashtables implement IEnumerable so that they can be iterated over simply with ForEach. However, it&rsquo;s important to note that the Iterator is a separate type from the Enumerable and a new one must be created each time the <code>foreach</code> syntax is used. This is very evident when you write your own IEnumerable implementations, because you are in charge of manually creating the iterator and returning it. These generally live on the heap because an IEnumerator object could be stored an referenced outside the scope of the function call.</p>
+
+<p>Of course, .NET/Mono have taken steps to prevent this from causing performance problems when using their built-in collections in the specific instance of foreach, but this is not the case for auto-generated iterators. Not only do the iterators need to be created fresh each time you call the method, they have a much larger memory footprint than just an index and an iterator. Every single local variable that you declare in the body of an auto-generated iterator will actually live as a member variable on the iterator object. On the backend, these iterators are actually compiled as classes which implement the necessary boilerplate code and store the necessary state for your iterator to work. This can produce some very big memory problems if used heavily and the IEnumerators should be cached if called frequently.</p>
+
+<h2 id="further-reading">Further Reading</h2>
+
+<p>For the sake of brevity, I&rsquo;ve had to leave out a few topics that are related to iterators so I will post some quick summaries for your further reading. The world of the C# language and .NET/Mono runtimes is wide, so I can only cover so much at a time. If you are interested in reading more about this topic, please send me a message and I&rsquo;ll write up some more!</p>
+
+<ul>
+<li><strong>LINQ</strong> - Query syntax similar to SQL for working with iterators.</li>
+<li><strong>LINQ Extensions</strong> - A set of helper functions that make it easier to manipulate iterators.</li>
+<li><strong>Async</strong> - Newer built-in syntax that lets you await the completion of a task before continuing.</li>
+</ul>
+
+                <br>
+		<p class="back-to-posts"><a href="https://becksebenius.github.io/blog/">Back to posts</a></p>
+            </div>
+            <br>
+            <div class="disqus">
+                
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-123-45', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+  
+
+  <script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+  </script>
+
+
+
+
+
+</body>
+</html>
+

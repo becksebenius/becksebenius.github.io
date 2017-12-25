@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://becksebenius.github.io/blog/feature-summary-iterators-in-csharp/</loc>
+    <lastmod>2017-12-25T13:34:25-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://becksebenius.github.io/contact/</loc>
     <lastmod>2017-12-20T00:00:00-07:00</lastmod>
   </url>
@@ -39,7 +44,7 @@
   
   <url>
     <loc>https://becksebenius.github.io/</loc>
-    <lastmod>2012-09-02T04:05:25-06:00</lastmod>
+    <lastmod>2017-12-25T13:34:25-07:00</lastmod>
     <priority>0</priority>
   </url>
   

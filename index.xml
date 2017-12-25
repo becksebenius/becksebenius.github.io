@@ -6,10 +6,20 @@
     <description>Recent content on Beck Sebenius</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 02 Sep 2012 04:05:25 -0600</lastBuildDate>
+    <lastBuildDate>Mon, 25 Dec 2017 13:34:25 -0700</lastBuildDate>
     
 	<atom:link href="https://becksebenius.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Feature Summary: Iterators in C#</title>
+      <link>https://becksebenius.github.io/blog/feature-summary-iterators-in-csharp/</link>
+      <pubDate>Mon, 25 Dec 2017 13:34:25 -0700</pubDate>
+      
+      <guid>https://becksebenius.github.io/blog/feature-summary-iterators-in-csharp/</guid>
+      <description>When programming with any language, it&amp;rsquo;s important to know the full suite of tools, their caveats, and their hidden benefits. A tool in C# that often goes overlooked are enumerables, and their spouse the iterators (called enumerators in C#). These tools are incredibly powerful and can make code more concise and flexible, but can also end up causing some serious problems down the line.
+First, lets establish some terms:</description>
+    </item>
     
     <item>
       <title>Coroutine Sequencing and Scriptable Objects</title>
