@@ -9,12 +9,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer">
 <meta name="author" content="Beck Sebenius">
-<meta name="description" content="Behaviour Trees are a common tool in an AI Designer&rsquo;s toolbox. The idea evolved in the 2000&rsquo;s as a way to define the behavior of an AI agent and has since evolved into a standardized set of terms and techniques used in many industries related to AI. In games, behaviour trees are usually paired with other tools like finite state machines or fuzzy logic.
-In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine.">
+<meta name="description" content="Behaviour Trees are a key tool in an AI Designer&rsquo;s toolbox. The idea got traction in the early 2000s as a way to define the behavior of an AI agent, and has since evolved into a standardized set of terms and techniques used across the games industry.
+In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine. In talking with colleagues from around the industry, I find that these tools are repeatedly built and re-built and hopefully this summary of my process can help you build your own.">
 
 <meta property="og:title" content="Building a Behaviour Tree Generator in C#" />
-<meta property="og:description" content="Behaviour Trees are a common tool in an AI Designer&rsquo;s toolbox. The idea evolved in the 2000&rsquo;s as a way to define the behavior of an AI agent and has since evolved into a standardized set of terms and techniques used in many industries related to AI. In games, behaviour trees are usually paired with other tools like finite state machines or fuzzy logic.
-In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine." />
+<meta property="og:description" content="Behaviour Trees are a key tool in an AI Designer&rsquo;s toolbox. The idea got traction in the early 2000s as a way to define the behavior of an AI agent, and has since evolved into a standardized set of terms and techniques used across the games industry.
+In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine. In talking with colleagues from around the industry, I find that these tools are repeatedly built and re-built and hopefully this summary of my process can help you build your own." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://becksebenius.github.io/blog/building-a-behaviour-tree-generator-in-csharp/" />
 
@@ -59,11 +59,11 @@ In this post, I am going to outline the process I took to implement a behaviour 
 
 
     
-    <link rel="stylesheet" href="https://becksebenius.github.io/css/reset.css?t=2017-12-25%2021%3a42%3a23.3305984%20-0800%20PST%20m%3d%2b0.561742201">
-    <link rel="stylesheet" href="https://becksebenius.github.io/css/pygments.css?t=2017-12-25%2021%3a42%3a23.3305984%20-0800%20PST%20m%3d%2b0.561742201">
-    <link rel="stylesheet" href="https://becksebenius.github.io/css/main.css?t=2017-12-25%2021%3a42%3a23.3305984%20-0800%20PST%20m%3d%2b0.561742201">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/reset.css?t=2017-12-25%2021%3a58%3a47.8362911%20-0800%20PST%20m%3d%2b0.258912401">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/pygments.css?t=2017-12-25%2021%3a58%3a47.8362911%20-0800%20PST%20m%3d%2b0.258912401">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/main.css?t=2017-12-25%2021%3a58%3a47.8362911%20-0800%20PST%20m%3d%2b0.258912401">
     
-        <link rel="stylesheet" href="https://becksebenius.github.io/css/override.css?t=2017-12-25%2021%3a42%3a23.3305984%20-0800%20PST%20m%3d%2b0.561742201">
+        <link rel="stylesheet" href="https://becksebenius.github.io/css/override.css?t=2017-12-25%2021%3a58%3a47.8362911%20-0800%20PST%20m%3d%2b0.258912401">
     
 
 
@@ -198,9 +198,9 @@ In this post, I am going to outline the process I took to implement a behaviour 
             <div class="markdown">
                 
 
-<p>Behaviour Trees are a common tool in an AI Designer&rsquo;s toolbox. The idea evolved in the 2000&rsquo;s as a way to define the behavior of an AI agent and has since evolved into a standardized set of terms and techniques used in many industries related to AI. In games, behaviour trees are usually paired with other tools like finite state machines or fuzzy logic.</p>
+<p>Behaviour Trees are a key tool in an AI Designer&rsquo;s toolbox. The idea got traction in the early 2000s as a way to define the behavior of an AI agent, and has since evolved into a standardized set of terms and techniques used across the games industry.</p>
 
-<p>In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine. In talking with colleagues from around the industry, I find that these tools are repeatedly built and re-built and hopefully by reading the summary of my process it can help you build your own.</p>
+<p>In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine. In talking with colleagues from around the industry, I find that these tools are repeatedly built and re-built and hopefully this summary of my process can help you build your own.</p>
 
 <h2 id="table-of-contents">Table of Contents</h2>
 
