@@ -59,11 +59,11 @@ In this post, I am going to outline the process I took to implement a behaviour 
 
 
     
-    <link rel="stylesheet" href="https://becksebenius.github.io/css/reset.css?t=2017-12-25%2021%3a19%3a19.8039464%20-0800%20PST%20m%3d%2b2.041779701">
-    <link rel="stylesheet" href="https://becksebenius.github.io/css/pygments.css?t=2017-12-25%2021%3a19%3a19.8039464%20-0800%20PST%20m%3d%2b2.041779701">
-    <link rel="stylesheet" href="https://becksebenius.github.io/css/main.css?t=2017-12-25%2021%3a19%3a19.8039464%20-0800%20PST%20m%3d%2b2.041779701">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/reset.css?t=2017-12-25%2021%3a42%3a23.3305984%20-0800%20PST%20m%3d%2b0.561742201">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/pygments.css?t=2017-12-25%2021%3a42%3a23.3305984%20-0800%20PST%20m%3d%2b0.561742201">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/main.css?t=2017-12-25%2021%3a42%3a23.3305984%20-0800%20PST%20m%3d%2b0.561742201">
     
-        <link rel="stylesheet" href="https://becksebenius.github.io/css/override.css?t=2017-12-25%2021%3a19%3a19.8039464%20-0800%20PST%20m%3d%2b2.041779701">
+        <link rel="stylesheet" href="https://becksebenius.github.io/css/override.css?t=2017-12-25%2021%3a42%3a23.3305984%20-0800%20PST%20m%3d%2b0.561742201">
     
 
 
@@ -202,6 +202,24 @@ In this post, I am going to outline the process I took to implement a behaviour 
 
 <p>In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine. In talking with colleagues from around the industry, I find that these tools are repeatedly built and re-built and hopefully by reading the summary of my process it can help you build your own.</p>
 
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<p><a href="#goals">Goals</a></p>
+
+<p><a href="#1-research-learning">1: Research, Learning</a></p>
+
+<p><a href="#2-determining-toolstack">2: Determining Toolstack</a></p>
+
+<p><a href="#3-code-architecture-generation">3: Code Architecture / Generation</a></p>
+
+<p><a href="#4-programmer-workflow">4: Programmer Workflow</a></p>
+
+<p><a href="#summary">Summary</a></p>
+
+<p><a name="goals"></a></p>
+
+<h2 id="goals">Goals</h2>
+
 <p>As with any large project, it&rsquo;s good to outline the goals you are trying to achieve. With this tool, I wanted to make sure that it had:</p>
 
 <ul>
@@ -209,6 +227,8 @@ In this post, I am going to outline the process I took to implement a behaviour 
 <li>Designer-friendly behaviour workflow</li>
 <li>Programmer-friendly implementation workflow</li>
 </ul>
+
+<p><a name="1-research-learning"/></a></p>
 
 <h2 id="1-research-learning">1: Research, Learning</h2>
 
@@ -223,6 +243,8 @@ In this post, I am going to outline the process I took to implement a behaviour 
 </ol>
 
 <p>With these core concepts, you can put together complex trees that describe a wide variety of behaviours. Neat!</p>
+
+<p><a name="2-determining-toolstack"></a></p>
 
 <h2 id="2-determining-toolstack">2: Determining Toolstack</h2>
 
@@ -241,6 +263,8 @@ In this post, I am going to outline the process I took to implement a behaviour 
 <h3 id="solution-generated-code">Solution: Generated Code</h3>
 
 <p>After a lot of research, I found that some examples of other people generating their behaviour trees. Generating code can be a volatile addition to a project, but the more I looked at the requirements of the behaviour tree tool the more I realized that it was a very promising solution. With generated code, the behaviour tree class could be hand-tailored for each use case to optimize for the smallest memory footprint while also limiting the performance cost of the flow control nodes.</p>
+
+<p><a name="3-code-architecture-generation"></a></p>
 
 <h2 id="3-code-architecture-generation">3: Code Architecture / Generation</h2>
 
@@ -340,6 +364,8 @@ _1__END: // LABEL
 <p>One thing that I often see with generated code is that it&rsquo;s very easy to ignore code cleanliness. Who is going to read the code anyways, right?
 I started this way, but quickly realized that I was making myself a bottleneck for future work on the system. When debugging a problem with generated code, an engineer&rsquo;s life is already twice as difficult because they&rsquo;re debugging <em>two</em> pieces of code at once - the generated code, and the code that generates it. It&rsquo;s important that the generated code is easy to understand and that there are comments about how it was generated so that issues can be addressed without necessarily understanding the full system. Good teamwork!</p>
 
+<p><a name="4-programmer-workflow"></a></p>
+
 <h2 id="4-programmer-workflow">4. Programmer Workflow</h2>
 
 <h3 id="leaf-nodes">Leaf Nodes</h3>
@@ -435,7 +461,7 @@ class _19__Properties_Interface : _19__Properties_TYPE
 
 <p>This feature was very important, because I wanted to encourage designers to create atomic trees that they can re-use across many other trees. It worked out; for example, we had a single core &lsquo;Attack&rsquo; sub tree that saw some heavily iteration as we fixed bugs and added functionality, but this sub-tree was inlined into many of the more high-level behaviours like &lsquo;Capture Objective&rsquo; or &lsquo;Defend Point&rsquo;.</p>
 
-<h3 id="code-compatability-problems">Code Compatability Problems</h3>
+<h3 id="code-compatibility-problems">Code Compatibility Problems</h3>
 
 <p>A huge problem that I ran into early in development with this tool was the problem of code compatability. Take the above <code>DoesObjectExist</code> example. What happens if I need to add a new property to the interface?</p>
 
@@ -470,6 +496,8 @@ class _19__Properties_Interface : _19__Properties_TYPE
 <h3 id="pooling">Pooling</h3>
 
 <p>As mentioned above, a goal of the tool was to make sure that using behaviour trees did not necessitate any runtime allocations, and the best way to do this in C# is with object pooling. Since this was such a common use case that would exist in any project, I ended up integrating it into the behaviour tree system itself. Each tree type would automatically create a pool of instances with an initialize count determined by the tree&rsquo;s configuration settings. There was also an option that would remove this from the compiled code in cases where the tree itself would never be instanced and was intended to be used as a sub-tree.</p>
+
+<p><a name="summary"></a></p>
 
 <h2 id="summary">Summary</h2>
 
