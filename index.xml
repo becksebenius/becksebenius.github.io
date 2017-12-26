@@ -12,11 +12,11 @@
     
     
     <item>
-      <title>Building a Behaviour Tree Generator in C#</title>
-      <link>https://becksebenius.github.io/blog/building-a-behaviour-tree-generator-in-csharp/</link>
+      <title>Building a Behaviour Tree Generator</title>
+      <link>https://becksebenius.github.io/blog/building-a-behaviour-tree-generator/</link>
       <pubDate>Mon, 04 Dec 2017 03:36:25 -0700</pubDate>
       
-      <guid>https://becksebenius.github.io/blog/building-a-behaviour-tree-generator-in-csharp/</guid>
+      <guid>https://becksebenius.github.io/blog/building-a-behaviour-tree-generator/</guid>
       <description>Behaviour Trees are a key tool in an AI Designer&amp;rsquo;s toolbox. The idea got traction in the early 2000s as a way to define the behavior of an AI agent, and has since evolved into a standardized set of terms and techniques used across the games industry.
 In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine. In talking with colleagues from around the industry, I find that these tools are repeatedly built and re-built and hopefully this summary of my process can help you build your own.</description>
     </item>
@@ -29,16 +29,6 @@ In this post, I am going to outline the process I took to implement a behaviour 
       <guid>https://becksebenius.github.io/blog/feature-summary-iterators-in-csharp/</guid>
       <description>When programming with any language, it&amp;rsquo;s important to know the full suite of tools, their caveats, and their hidden benefits. A tool in C# that often goes overlooked are enumerables, and their spouse the iterators (called enumerators in C#). These tools are incredibly powerful and can make code more concise and flexible, but can also end up causing some serious problems down the line.
 First, lets establish some terms:</description>
-    </item>
-    
-    <item>
-      <title>Coroutine Sequencing and Scriptable Objects</title>
-      <link>https://becksebenius.github.io/blog/coroutine-sequencing-and-scriptable-objects/</link>
-      <pubDate>Mon, 02 Sep 2013 04:05:25 -0600</pubDate>
-      
-      <guid>https://becksebenius.github.io/blog/coroutine-sequencing-and-scriptable-objects/</guid>
-      <description>Here&amp;rsquo;s some code snippets that I&amp;rsquo;ve started using quite a bit in my projects. Neither of them are terribly complex, but hopefully someone finds them useful! First is the IEnumerator Queue. This one is used for sequencing coroutines together.
-using System.Collections; using System.Collections.Generic; public class CoroutineQueue : Queue &amp;lt; IEnumerator &amp;gt; ; { public IEnumerator current; public CoroutineQueue () {} public CoroutineQueue (params IEnumerator[] startingIEnumerators) { foreach(IEnumerator i in startingIEnumerators) Enqueue(i); } public void Update () { if(current !</description>
     </item>
     
     <item>
