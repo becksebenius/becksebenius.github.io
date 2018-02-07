@@ -9,12 +9,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="no-referrer">
 <meta name="author" content="Beck Sebenius">
-<meta name="description" content="Behaviour Trees are a key tool in an AI Designer&rsquo;s toolbox. The idea got traction in the early 2000s as a way to define the behavior of an AI agent, and has since evolved into a standardized set of terms and techniques used across the games industry.
-In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine. In talking with colleagues from around the industry, I find that these tools are repeatedly built and re-built and hopefully this summary of my process can help you build your own.">
+<meta name="description" content="Overview of an allocation-free, designer-friendly behaviour tree tool in Unity3D.">
 
 <meta property="og:title" content="Building a Behaviour Tree Generator" />
-<meta property="og:description" content="Behaviour Trees are a key tool in an AI Designer&rsquo;s toolbox. The idea got traction in the early 2000s as a way to define the behavior of an AI agent, and has since evolved into a standardized set of terms and techniques used across the games industry.
-In this post, I am going to outline the process I took to implement a behaviour tree tool in the Unity3D engine. In talking with colleagues from around the industry, I find that these tools are repeatedly built and re-built and hopefully this summary of my process can help you build your own." />
+<meta property="og:description" content="Overview of an allocation-free, designer-friendly behaviour tree tool in Unity3D." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://becksebenius.github.io/blog/building-a-behaviour-tree-generator/" />
 
@@ -59,11 +57,11 @@ In this post, I am going to outline the process I took to implement a behaviour 
 
 
     
-    <link rel="stylesheet" href="https://becksebenius.github.io/css/reset.css?t=2017-12-25%2022%3a14%3a08.7460923%20-0800%20PST%20m%3d%2b0.420279701">
-    <link rel="stylesheet" href="https://becksebenius.github.io/css/pygments.css?t=2017-12-25%2022%3a14%3a08.7460923%20-0800%20PST%20m%3d%2b0.420279701">
-    <link rel="stylesheet" href="https://becksebenius.github.io/css/main.css?t=2017-12-25%2022%3a14%3a08.7460923%20-0800%20PST%20m%3d%2b0.420279701">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/reset.css?t=2018-02-06%2020%3a37%3a48.0828577%20-0800%20PST%20m%3d%2b0.259367201">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/pygments.css?t=2018-02-06%2020%3a37%3a48.0828577%20-0800%20PST%20m%3d%2b0.259367201">
+    <link rel="stylesheet" href="https://becksebenius.github.io/css/main.css?t=2018-02-06%2020%3a37%3a48.0828577%20-0800%20PST%20m%3d%2b0.259367201">
     
-        <link rel="stylesheet" href="https://becksebenius.github.io/css/override.css?t=2017-12-25%2022%3a14%3a08.7460923%20-0800%20PST%20m%3d%2b0.420279701">
+        <link rel="stylesheet" href="https://becksebenius.github.io/css/override.css?t=2018-02-06%2020%3a37%3a48.0828577%20-0800%20PST%20m%3d%2b0.259367201">
     
 
 
